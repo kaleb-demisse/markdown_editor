@@ -1,0 +1,1 @@
+ /home/kaleb/temp/markdown_editor/.dart_tool/flutter_build/5676785f1cd92d63e5efac0b20e9a91b/native_assets.yaml: 

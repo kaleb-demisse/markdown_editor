@@ -198,10 +198,6 @@ xdg_directories
 3.3
 file:///home/kaleb/.pub-cache/hosted/pub.dev/xdg_directories-1.1.0/
 file:///home/kaleb/.pub-cache/hosted/pub.dev/xdg_directories-1.1.0/lib/
-notes
-3.5
-file:///home/kaleb/Desktop/markdown_editor/
-file:///home/kaleb/Desktop/markdown_editor/lib/
 sky_engine
 3.2
 file:///home/kaleb/snap/flutter/common/flutter/bin/cache/pkg/sky_engine/
@@ -218,4 +214,8 @@ flutter_web_plugins
 3.2
 file:///home/kaleb/snap/flutter/common/flutter/packages/flutter_web_plugins/
 file:///home/kaleb/snap/flutter/common/flutter/packages/flutter_web_plugins/lib/
+notes
+3.5
+file:///home/kaleb/temp/markdown_editor/
+file:///home/kaleb/temp/markdown_editor/lib/
 2

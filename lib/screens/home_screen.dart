@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notes/screens/note_editor.dart';
 import 'package:notes/screens/note_reader.dart';
+import 'package:notes/screens/profile.dart';
 import 'package:notes/style/app_style.dart';
 import 'package:notes/widgets/note_card.dart';
 
@@ -23,9 +24,24 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: AppStyle.mainColor,
       appBar: AppBar(
         elevation: 0.0,
-        title: Text("Notes"),
+        title: const Text("Notes"),
         centerTitle: true,
         backgroundColor: AppStyle.mainColor,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.person),
+            tooltip: 'Profile',
+            onPressed: () {
+              // Navigate directly to the Profile screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const Profile(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -48,19 +64,21 @@ class _HomeScreenState extends State<HomeScreen> {
                     .snapshots(),
                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   }
-                  if (snapshot.hasData) {
+                  if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
                     return GridView(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2),
                       children: snapshot.data!.docs
                           .map((note) => noteCard(() {
                                 Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => NoteReader(note),
-                                    ));
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => NoteReader(note),
+                                  ),
+                                );
                               }, note))
                           .toList(),
                     );
@@ -82,13 +100,14 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => NoteEditor(),
-              ));
+            context,
+            MaterialPageRoute(
+              builder: (context) => NoteEditor(),
+            ),
+          );
         },
-        label: Text("Add Note"),
-        icon: Icon(Icons.add),
+        label: const Text("Add Note"),
+        icon: const Icon(Icons.add),
       ),
     );
   }
