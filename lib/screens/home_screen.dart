@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: AppStyle.mainColor,
       appBar: AppBar(
         elevation: 0.0,
-        title: const Text("Notes"),
+        title: const Text("Markdown Editor"),
         centerTitle: true,
         backgroundColor: AppStyle.mainColor,
         actions: [

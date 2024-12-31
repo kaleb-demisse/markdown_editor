@@ -17,24 +17,32 @@ class _SignUpState extends State<SignUp> {
 
   bool _isPasswordVisible = false;
   bool _isLoading = false;
+  String? _errorMessage; // Variable to store error message
 
   Future<void> _signUp() async {
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
     final confirmPassword = _passwordAgainController.text.trim();
 
+    // Check if any of the fields are empty
     if (email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
-      _showErrorDialog("Please fill in all fields");
+      setState(() {
+        _errorMessage = "Please fill in all fields";
+      });
       return;
     }
 
+    // Check if passwords match
     if (password != confirmPassword) {
-      _showErrorDialog("Passwords do not match");
+      setState(() {
+        _errorMessage = "Passwords do not match";
+      });
       return;
     }
 
     setState(() {
       _isLoading = true;
+      _errorMessage = null; // Reset any previous error messages
     });
 
     try {
@@ -56,30 +64,18 @@ class _SignUpState extends State<SignUp> {
       } else if (e.code == 'invalid-email') {
         errorMessage = "Please enter a valid email address.";
       }
-      _showErrorDialog(errorMessage);
+      setState(() {
+        _errorMessage = errorMessage;
+      });
     } catch (e) {
-      _showErrorDialog("An unexpected error occurred. Please try again.");
+      setState(() {
+        _errorMessage = "An unexpected error occurred. Please try again.";
+      });
     }
 
     setState(() {
       _isLoading = false;
     });
-  }
-
-  void _showErrorDialog(String message) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text("Sign-Up Error"),
-        content: Text(message),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text("OK"),
-          ),
-        ],
-      ),
-    );
   }
 
   @override
@@ -135,6 +131,15 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
               ),
+              // Display error message if present
+              if (_errorMessage != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: Text(
+                    _errorMessage!,
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                ),
               const SizedBox(height: 15),
               const SizedBox(height: 10.0),
               SizedBox(
@@ -154,6 +159,7 @@ class _SignUpState extends State<SignUp> {
               ),
               const SizedBox(height: 10),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
                     "Already have an account?",
@@ -161,7 +167,7 @@ class _SignUpState extends State<SignUp> {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (context) => const Login()),
                       );

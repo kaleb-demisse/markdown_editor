@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:notes/style/app_style.dart';
 
 Widget noteCard(Function()? onTap, QueryDocumentSnapshot doc) {
@@ -29,11 +30,17 @@ Widget noteCard(Function()? onTap, QueryDocumentSnapshot doc) {
           const SizedBox(
             height: 8.0,
           ),
-          Text(
-            doc['content'],
-            style: AppStyle.mainContent,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 3,
+          // Wrapping the MarkdownBody in an Expanded to avoid overflow
+          Expanded(
+            child: SingleChildScrollView(
+              // Add SingleChildScrollView to allow scrolling
+              child: MarkdownBody(
+                data: doc['content'],
+                styleSheet: MarkdownStyleSheet(
+                  p: AppStyle.mainContent,
+                ),
+              ),
+            ),
           ),
         ],
       ),

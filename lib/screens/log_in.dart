@@ -20,6 +20,21 @@ class _LoginState extends State<Login> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> _signIn() async {
+    // Check if email or password is empty
+    if (_emailController.text.trim().isEmpty) {
+      setState(() {
+        _errorMessage = 'Please enter your email address.';
+      });
+      return; // Exit the function if email is empty
+    }
+
+    if (_passwordController.text.trim().isEmpty) {
+      setState(() {
+        _errorMessage = 'Please enter your password.';
+      });
+      return; // Exit the function if password is empty
+    }
+
     setState(() {
       _isLoading = true;
       _errorMessage = null;
@@ -46,6 +61,45 @@ class _LoginState extends State<Login> {
         } else {
           _errorMessage = 'An error occurred: ${e.message}';
         }
+      });
+    } catch (e) {
+      setState(() {
+        _errorMessage = 'An unexpected error occurred. Please try again later.';
+      });
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  // Function to handle "Forgot Password"
+  Future<void> _resetPassword() async {
+    final String email = _emailController.text.trim();
+
+    if (email.isEmpty) {
+      setState(() {
+        _errorMessage = 'Please enter your email address.';
+      });
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Password reset email sent! Check your inbox.'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        _errorMessage = 'Failed to send reset email: ${e.message}';
       });
     } catch (e) {
       setState(() {
@@ -115,9 +169,7 @@ class _LoginState extends State<Login> {
               Align(
                 alignment: Alignment.centerRight,
                 child: GestureDetector(
-                  onTap: () {
-                    // Implement "Forgot Password" functionality if needed
-                  },
+                  onTap: _resetPassword, // Call _resetPassword function here
                   child: const Text(
                     "Forgot Password?",
                     style: TextStyle(color: Colors.blue),
@@ -153,7 +205,7 @@ class _LoginState extends State<Login> {
                       style: TextStyle(fontSize: 16.0)),
                   InkWell(
                     onTap: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (context) => const SignUp()),
                       );

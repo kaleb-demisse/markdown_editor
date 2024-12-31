@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:notes/style/app_style.dart';
 import 'edit_note.dart'; // Import the EditNote screen
 
@@ -52,34 +53,30 @@ class _NoteReaderState extends State<NoteReader> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                widget.doc['title'],
-                style: AppStyle.mainTitle,
-              ),
-              const SizedBox(
-                height: 4.0,
-              ),
-              Text(
-                widget.doc['date'],
-                style: AppStyle.dateTitle,
-              ),
-              const SizedBox(
-                height: 28.0,
-              ),
-              Text(
-                widget.doc['content'],
-                style: AppStyle.mainContent,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
+      body: ListView(
+        padding: EdgeInsets.all(16.0), // Keep padding if needed
+        children: [
+          Text(
+            widget.doc['title'],
+            style: AppStyle.mainTitle,
           ),
-        ),
+          const SizedBox(
+            height: 4.0,
+          ),
+          Text(
+            widget.doc['date'],
+            style: AppStyle.dateTitle,
+          ),
+          const SizedBox(
+            height: 28.0,
+          ),
+          MarkdownBody(
+            data: widget.doc['content'],
+            styleSheet: MarkdownStyleSheet(
+              p: AppStyle.mainContent,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -90,17 +87,17 @@ class _NoteReaderState extends State<NoteReader> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Delete Note"),
-          content: Text("Are you sure you want to delete this note?"),
+          title: const Text("Delete Note"),
+          content: const Text("Are you sure you want to delete this note?"),
           actions: [
             TextButton(
-              child: Text("Cancel"),
+              child: const Text("Cancel"),
               onPressed: () {
                 Navigator.of(context).pop(false);
               },
             ),
             TextButton(
-              child: Text("Delete"),
+              child: const Text("Delete"),
               onPressed: () {
                 Navigator.of(context).pop(true);
               },

@@ -1,5 +1,5 @@
 name: notes
-description: "A new Flutter project."
+description: "A markdown Editor"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -39,6 +39,8 @@ dependencies:
   cloud_firestore: ^5.6.0
   google_fonts: ^6.2.1
   firebase_auth: ^5.3.4  
+  markdown_editor_plus: any
+  flutter_markdown: any
 
 dev_dependencies:
   flutter_test:
@@ -92,3 +94,8 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "./logo.png"
