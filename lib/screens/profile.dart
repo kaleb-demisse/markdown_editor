@@ -1,9 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart'; // Import FirebaseAuth
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:notes/screens/log_in.dart'; // Import Login screen
+import 'package:notes/screens/log_in.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({Key? key}) : super(key: key);
+  const Profile({super.key});
 
   @override
   State<Profile> createState() => _ProfileState();
@@ -14,13 +14,11 @@ class _ProfileState extends State<Profile> {
 
   Future<void> _logOut() async {
     try {
-      // Log out the current user
       await _auth.signOut();
-      // Navigate to the Login screen
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => const Login()),
-        (Route<dynamic> route) => false, // Remove all previous routes
+        (Route<dynamic> route) => false,
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -31,14 +29,13 @@ class _ProfileState extends State<Profile> {
 
   Future<void> _deleteAccount() async {
     try {
-      User? user = _auth.currentUser; // Get the current user
+      User? user = _auth.currentUser;
       if (user != null) {
-        await user.delete(); // Delete the user's account
-        // Navigate to the Login screen
+        await user.delete();
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => const Login()),
-          (Route<dynamic> route) => false, // Remove all previous routes
+          (Route<dynamic> route) => false,
         );
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Account successfully deleted.")),
@@ -49,7 +46,7 @@ class _ProfileState extends State<Profile> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text(
-              "Please log in again to confirm account deletion.",
+              "Recent Login required. Please Login again",
             ),
           ),
         );
@@ -67,9 +64,8 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    final User? user = _auth.currentUser; // Get the logged-in user
-    final String? email =
-        user?.email ?? "Anonymous User"; // Fetch user email or default value
+    final User? user = _auth.currentUser;
+    final String? email = user?.email ?? "Unknown";
 
     return Scaffold(
       body: Center(
@@ -78,7 +74,6 @@ class _ProfileState extends State<Profile> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Profile Icon (Rounded)
               CircleAvatar(
                 radius: 50.0,
                 backgroundColor: Colors.grey[300],
@@ -89,8 +84,6 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
               const SizedBox(height: 20.0),
-
-              // Display logged-in email
               Text(
                 'Logged in as: $email',
                 style: const TextStyle(
@@ -100,8 +93,6 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
               const SizedBox(height: 40.0),
-
-              // Log Out Button
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -109,13 +100,11 @@ class _ProfileState extends State<Profile> {
                     backgroundColor: Colors.black,
                     foregroundColor: Colors.white,
                   ),
-                  onPressed: _logOut, // Log out the user
+                  onPressed: _logOut,
                   child: const Text("Log Out"),
                 ),
               ),
               const SizedBox(height: 20.0),
-
-              // Delete Account Button
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -123,7 +112,7 @@ class _ProfileState extends State<Profile> {
                     backgroundColor: Colors.red,
                     foregroundColor: Colors.white,
                   ),
-                  onPressed: _deleteAccount, // Delete the user's account
+                  onPressed: _deleteAccount,
                   child: const Text("Delete Account"),
                 ),
               ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppStyle {
-  static Color bgColor = Color(0xFFe2e2fe);
+  static Color bgColor = const Color(0xFFe2e2fe);
   static Color mainColor = Colors.white;
 
   static List<Color> cardsColor = [

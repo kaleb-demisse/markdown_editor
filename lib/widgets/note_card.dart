@@ -30,10 +30,8 @@ Widget noteCard(Function()? onTap, QueryDocumentSnapshot doc) {
           const SizedBox(
             height: 8.0,
           ),
-          // Wrapping the MarkdownBody in an Expanded to avoid overflow
           Expanded(
             child: SingleChildScrollView(
-              // Add SingleChildScrollView to allow scrolling
               child: MarkdownBody(
                 data: doc['content'],
                 styleSheet: MarkdownStyleSheet(

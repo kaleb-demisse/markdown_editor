@@ -1,11 +1,16 @@
+import 'dart:io';
+
+import 'package:device_info_plus/device_info_plus.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:notes/style/app_style.dart';
-import 'edit_note.dart'; // Import the EditNote screen
+import 'package:permission_handler/permission_handler.dart';
+import 'edit_note.dart';
 
 class NoteReader extends StatefulWidget {
-  NoteReader(this.doc, {Key? key}) : super(key: key);
+  const NoteReader(this.doc, {super.key});
   final QueryDocumentSnapshot doc;
 
   @override
@@ -24,7 +29,13 @@ class _NoteReaderState extends State<NoteReader> {
         elevation: 0.0,
         actions: [
           IconButton(
-            icon: Icon(Icons.edit, color: Colors.black),
+            icon: const Icon(Icons.file_download, color: Colors.black),
+            onPressed: () {
+              exportMarkdownFile();
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.edit, color: Colors.black),
             onPressed: () {
               Navigator.push(
                 context,
@@ -35,7 +46,7 @@ class _NoteReaderState extends State<NoteReader> {
             },
           ),
           IconButton(
-            icon: Icon(Icons.delete, color: Colors.black),
+            icon: const Icon(Icons.delete, color: Colors.black),
             onPressed: () async {
               bool confirm = await _showDeleteConfirmationDialog(context);
               if (confirm) {
@@ -54,7 +65,7 @@ class _NoteReaderState extends State<NoteReader> {
         ],
       ),
       body: ListView(
-        padding: EdgeInsets.all(16.0), // Keep padding if needed
+        padding: const EdgeInsets.all(16.0),
         children: [
           Text(
             widget.doc['title'],
@@ -81,7 +92,6 @@ class _NoteReaderState extends State<NoteReader> {
     );
   }
 
-  // Confirmation Dialog
   Future<bool> _showDeleteConfirmationDialog(BuildContext context) async {
     return await showDialog(
       context: context,
@@ -106,5 +116,46 @@ class _NoteReaderState extends State<NoteReader> {
         );
       },
     );
+  }
+
+  Future<void> exportMarkdownFile() async {
+    PermissionStatus status;
+    if (Platform.isAndroid) {
+      var androidInfo = await DeviceInfoPlugin().androidInfo;
+      if (androidInfo.version.sdkInt >= 30) {
+        status = await Permission.manageExternalStorage.request();
+      } else {
+        status = await Permission.storage.request();
+      }
+    } else {
+      status = await Permission.storage.request();
+    }
+    if (status.isGranted) {
+      try {
+        String title = widget.doc['title'];
+        String content = widget.doc['content'];
+
+        String markdownContent = content;
+
+        String? directory = await FilePicker.platform.getDirectoryPath();
+
+        final path = '${directory}/$title.md';
+
+        final file = File(path);
+        await file.writeAsString(markdownContent);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Note exported to $path')),
+        );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error exporting note: $e')),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Storage permission denied')),
+      );
+    }
   }
 }

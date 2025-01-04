@@ -8,7 +8,6 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  // Get the current user
   User? currentUser = FirebaseAuth.instance.currentUser;
 
   runApp(MyApp(

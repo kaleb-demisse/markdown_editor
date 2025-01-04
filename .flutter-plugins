@@ -1,12 +1,19 @@
 # This is a generated file; do not edit or check into version control.
 cloud_firestore=/home/kaleb/.pub-cache/hosted/pub.dev/cloud_firestore-5.6.0/
 cloud_firestore_web=/home/kaleb/.pub-cache/hosted/pub.dev/cloud_firestore_web-4.4.0/
+device_info_plus=/home/kaleb/.pub-cache/hosted/pub.dev/device_info_plus-9.1.2/
+file_picker=/home/kaleb/.pub-cache/hosted/pub.dev/file_picker-8.1.7/
 firebase_auth=/home/kaleb/.pub-cache/hosted/pub.dev/firebase_auth-5.3.4/
 firebase_auth_web=/home/kaleb/.pub-cache/hosted/pub.dev/firebase_auth_web-5.13.5/
 firebase_core=/home/kaleb/.pub-cache/hosted/pub.dev/firebase_core-3.9.0/
 firebase_core_web=/home/kaleb/.pub-cache/hosted/pub.dev/firebase_core_web-2.19.0/
+flutter_plugin_android_lifecycle=/home/kaleb/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.24/
 path_provider=/home/kaleb/.pub-cache/hosted/pub.dev/path_provider-2.1.5/
 path_provider_android=/home/kaleb/.pub-cache/hosted/pub.dev/path_provider_android-2.2.15/
 path_provider_foundation=/home/kaleb/.pub-cache/hosted/pub.dev/path_provider_foundation-2.4.1/
 path_provider_linux=/home/kaleb/.pub-cache/hosted/pub.dev/path_provider_linux-2.2.1/
 path_provider_windows=/home/kaleb/.pub-cache/hosted/pub.dev/path_provider_windows-2.3.0/
+permission_handler=/home/kaleb/.pub-cache/hosted/pub.dev/permission_handler-10.4.5/
+permission_handler_android=/home/kaleb/.pub-cache/hosted/pub.dev/permission_handler_android-10.3.6/
+permission_handler_apple=/home/kaleb/.pub-cache/hosted/pub.dev/permission_handler_apple-9.1.4/
+permission_handler_windows=/home/kaleb/.pub-cache/hosted/pub.dev/permission_handler_windows-0.1.3/

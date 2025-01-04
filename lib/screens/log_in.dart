@@ -20,19 +20,18 @@ class _LoginState extends State<Login> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> _signIn() async {
-    // Check if email or password is empty
     if (_emailController.text.trim().isEmpty) {
       setState(() {
         _errorMessage = 'Please enter your email address.';
       });
-      return; // Exit the function if email is empty
+      return;
     }
 
     if (_passwordController.text.trim().isEmpty) {
       setState(() {
         _errorMessage = 'Please enter your password.';
       });
-      return; // Exit the function if password is empty
+      return;
     }
 
     setState(() {
@@ -41,13 +40,11 @@ class _LoginState extends State<Login> {
     });
 
     try {
-      final UserCredential userCredential =
-          await _auth.signInWithEmailAndPassword(
+      await _auth.signInWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
 
-      // Navigate to the home screen on successful login
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const HomeScreen()),
@@ -73,7 +70,6 @@ class _LoginState extends State<Login> {
     }
   }
 
-  // Function to handle "Forgot Password"
   Future<void> _resetPassword() async {
     final String email = _emailController.text.trim();
 
@@ -116,7 +112,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: SingleChildScrollView(
+        child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -131,8 +127,8 @@ class _LoginState extends State<Login> {
               TextField(
                 controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.email),
+                decoration: const InputDecoration(
+                  prefixIcon: Icon(Icons.email),
                   hintText: 'Email',
                 ),
               ),
@@ -168,8 +164,8 @@ class _LoginState extends State<Login> {
               const SizedBox(height: 15.0),
               Align(
                 alignment: Alignment.centerRight,
-                child: GestureDetector(
-                  onTap: _resetPassword, // Call _resetPassword function here
+                child: InkWell(
+                  onTap: _resetPassword,
                   child: const Text(
                     "Forgot Password?",
                     style: TextStyle(color: Colors.blue),

@@ -37,7 +37,7 @@ class _NoteEditorState extends State<NoteEditor> {
       final docRef = await FirebaseFirestore.instance.collection("notes").add({
         "title": _titleController.text.trim(),
         "date": date,
-        "content": _contentController.text.trim(),
+        "content": _contentController.text,
         "color": color,
         "userId": user?.uid,
       });
@@ -71,7 +71,6 @@ class _NoteEditorState extends State<NoteEditor> {
       body: ListView(
         padding: const EdgeInsets.all(10.0),
         children: [
-          // Title Field
           TextField(
             controller: _titleController,
             decoration: const InputDecoration(
@@ -82,19 +81,14 @@ class _NoteEditorState extends State<NoteEditor> {
             maxLines: 2,
           ),
           const SizedBox(height: 10.0),
-
-          // Date Text
           Text(
             date,
             style: AppStyle.dateTitle,
           ),
           const SizedBox(height: 20.0),
-
-          // MarkdownAutoPreview widget wrapped in Expanded
-          // ListView will handle scrolling automatically
           MarkdownAutoPreview(
             controller: _contentController,
-            enableToolBar: true, // Enable the default toolbar
+            enableToolBar: true,
             emojiConvert: true,
             maxLines: null,
           ),

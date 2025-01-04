@@ -17,14 +17,13 @@ class _SignUpState extends State<SignUp> {
 
   bool _isPasswordVisible = false;
   bool _isLoading = false;
-  String? _errorMessage; // Variable to store error message
+  String? _errorMessage;
 
   Future<void> _signUp() async {
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
     final confirmPassword = _passwordAgainController.text.trim();
 
-    // Check if any of the fields are empty
     if (email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
       setState(() {
         _errorMessage = "Please fill in all fields";
@@ -32,7 +31,6 @@ class _SignUpState extends State<SignUp> {
       return;
     }
 
-    // Check if passwords match
     if (password != confirmPassword) {
       setState(() {
         _errorMessage = "Passwords do not match";
@@ -42,7 +40,7 @@ class _SignUpState extends State<SignUp> {
 
     setState(() {
       _isLoading = true;
-      _errorMessage = null; // Reset any previous error messages
+      _errorMessage = null;
     });
 
     try {
@@ -131,7 +129,6 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
               ),
-              // Display error message if present
               if (_errorMessage != null)
                 Padding(
                   padding: const EdgeInsets.only(top: 10.0),

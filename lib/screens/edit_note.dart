@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:markdown_editor_plus/markdown_editor_plus.dart';
 import 'package:notes/style/app_style.dart';
-import 'home_screen.dart'; // Import the HomeScreen
+import 'home_screen.dart';
 
 class EditNote extends StatefulWidget {
   final QueryDocumentSnapshot doc;
@@ -75,7 +75,6 @@ class _EditNoteState extends State<EditNote> {
         onPressed: () async {
           final user = FirebaseAuth.instance.currentUser;
           if (widget.doc['userId'] == user?.uid) {
-            // Check ownership before editing
             FirebaseFirestore.instance
                 .collection("notes")
                 .doc(widget.doc.id)
@@ -86,11 +85,10 @@ class _EditNoteState extends State<EditNote> {
             }).then((value) {
               print("Note updated successfully");
 
-              // Clear the navigation stack and navigate to HomeScreen
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) => const HomeScreen()),
-                (route) => false, // This will remove all previous routes
+                (route) => false,
               );
             }).catchError((error) {
               print("Failed to update note: $error");

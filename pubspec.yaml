@@ -41,6 +41,10 @@ dependencies:
   firebase_auth: ^5.3.4  
   markdown_editor_plus: any
   flutter_markdown: any
+  file_picker: any
+  path_provider: any
+  permission_handler: any
+  device_info_plus: ^9.0.0
 
 dev_dependencies:
   flutter_test:
